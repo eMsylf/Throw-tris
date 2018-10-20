@@ -20,7 +20,7 @@ public class Controls : MonoBehaviour {
     private Vector3 startForceVector;
     public int startForceX = 5;
     public int startForceY = 5;
-    [Range(5, 80)]
+    [Range(5, 1000)]
     public int startForceMultiplier ;
     private Quaternion spawnRotation;
     Rigidbody block_rb;
@@ -77,6 +77,13 @@ public class Controls : MonoBehaviour {
         } 
         else if (Input.GetKeyDown(blockThrowKey)) {
             SpawnBlockLong1();
+        }
+
+        if (Input.GetKey(KeyCode.UpArrow) && startForceMultiplier < 1000) {
+            startForceMultiplier += 5;
+        }
+        else if (Input.GetKey(KeyCode.DownArrow) && startForceMultiplier > 0) {
+            startForceMultiplier -= 5;
         }
 
     }

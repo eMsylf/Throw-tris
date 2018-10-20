@@ -4,36 +4,92 @@ using UnityEngine;
 
 public class BlockScript : MonoBehaviour {
 
+    private float outOfBoundsDistance = 50f;
+
+    private Vector3 spawnPos;
     private Rigidbody rb;
+
+
+    private int frameCount;
+    private int framesBeforeDetach = 15;
+
+
+    private bool childrenGotRigidbodies = false;
+    private bool childrenDetached = false;
 
     // Use this for initialization
     void Start () {
+
+        foreach (Transform child in transform) {
+            child.GetComponent<Rigidbody>();
+        }
+
+        spawnPos = gameObject.transform.position;
+
         rb = GetComponent<Rigidbody>();
+
+        //StartCoroutine("WaitAndEnableRigidbodies");
     }
 
-    // Update is called once per frame
-    //void Update () {
+    //Update is called once per frame
+    void Update() {
+        frameCount++;
+        if (frameCount == framesBeforeDetach) {
 
-    //       if (Vector3.Distance(gameObject.transform.position, spawnPos) > 100f) {
-    //           Destroy(gameObject);
-    //           Debug.Log(gameObject.name + "destroyed because out of bounds");
-    //       }
-    //   }
+            AddRigidbodiesToChildren();
+            
+            
+        }
+
+
+        if (childrenGotRigidbodies && !childrenDetached) {
+            DetachChildren();
+        }
+
+
+        if (Vector3.Distance(gameObject.transform.position, spawnPos) > outOfBoundsDistance) {
+            Destroy(gameObject);
+            Debug.Log(gameObject.name + "destroyed because out of bounds");
+        }
+    }
 
     private void OnCollisionEnter(Collision collision) {
+
         Debug.Log("Collision between " + name + " and " + collision.gameObject.name);
 
 
-        rb.constraints = RigidbodyConstraints.FreezeAll;
+        if (!childrenGotRigidbodies) {
+            AddRigidbodiesToChildren();
+        }
 
 
-        gameObject.transform.parent = null;
-
-        gameObject.SetActive(false);
     }
 
+    //IEnumerator WaitAndEnableRigidbodies() {
+    //    yield return new WaitUntil();
+    //    AddRigidbodiesToAndDetachChildren();
+    //}
 
+    private void DetachChildren() {
 
+        gameObject.transform.DetachChildren();
+
+        rb.constraints = RigidbodyConstraints.FreezeAll;
+
+        gameObject.SetActive(false);
+
+        childrenDetached = true;
+    }
+
+    private void AddRigidbodiesToChildren() {
+
+        foreach (Transform child in transform) {
+            Rigidbody child_rb = child.gameObject.AddComponent<Rigidbody>();
+            child_rb.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
+        }
+        childrenGotRigidbodies = true;
+    }
+    
 
 
 

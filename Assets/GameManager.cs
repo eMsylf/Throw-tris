@@ -12,12 +12,12 @@ public class GameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKeyDown(KeyCode.R)) {
-            ResetScene();
-        }
+
+		if (Input.GetKeyDown(KeyCode.R)) { ResetScene(); }
 	}
 
     void ResetScene() {
+
         Scene scene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(scene.name);
     }
