@@ -86,6 +86,7 @@ public class BlockScript : MonoBehaviour {
         foreach (Transform child in transform) {
             Rigidbody child_rb = child.gameObject.AddComponent<Rigidbody>();
             child_rb.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
+            child_rb.velocity = rb.velocity;
         }
         childrenGotRigidbodies = true;
     }
