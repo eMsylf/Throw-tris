@@ -18,7 +18,7 @@ public class BlockScript : MonoBehaviour {
     private bool childrenDetached = false;
 
     // Use this for initialization
-    void Start () {
+    void Start() {
 
         foreach (Transform child in transform) {
             child.GetComponent<Rigidbody>();
@@ -37,10 +37,7 @@ public class BlockScript : MonoBehaviour {
         if (frameCount == framesBeforeDetach) {
 
             AddRigidbodiesToChildren();
-            
-            
         }
-
 
         if (childrenGotRigidbodies && !childrenDetached) {
             DetachChildren();
@@ -56,19 +53,10 @@ public class BlockScript : MonoBehaviour {
     private void OnCollisionEnter(Collision collision) {
 
         Debug.Log("Collision between " + name + " and " + collision.gameObject.name);
-
-
         if (!childrenGotRigidbodies) {
             AddRigidbodiesToChildren();
         }
-
-
     }
-
-    //IEnumerator WaitAndEnableRigidbodies() {
-    //    yield return new WaitUntil();
-    //    AddRigidbodiesToAndDetachChildren();
-    //}
 
     private void DetachChildren() {
 
@@ -90,7 +78,7 @@ public class BlockScript : MonoBehaviour {
         }
         childrenGotRigidbodies = true;
     }
-    
+
 
 
 

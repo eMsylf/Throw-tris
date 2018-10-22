@@ -4,7 +4,6 @@ using UnityEngine;
 
 
 public class Controls : MonoBehaviour {
-
     public GameObject blockLong1;
     public GameObject blockL_Normal;
     public GameObject blockL_Reverse;
@@ -13,93 +12,98 @@ public class Controls : MonoBehaviour {
     public GameObject blockS_Reverse;
     public GameObject blockSquare;
 
+    public List<GameObject> tetrinoList;
+
     public GameObject blockLong2;
 
+    private int framesBeforeNextThrow = 0;
+    private int framesBeforeNextThrowMax = 60;
+    private bool canThrow;
 
     private Vector3 spawnPosition;
     private Vector3 startForceVector;
     public int startForceX = 5;
     public int startForceY = 5;
-    [Range(5, 1000)]
-    public int startForceMultiplier ;
+
+    public int lowStartForce = 10;
+    public int highStartForce = 60;
+
+    [Range(30, 50)]
+    public int startForceMultiplier = 10;
+
     private Quaternion spawnRotation;
-    Rigidbody block_rb;
 
-    public KeyCode blockThrowKey; 
+    public KeyCode blockThrowKey;
 
-    // Use this for initialization
-    void Start ()
-    {
-//        block_rb = blockLong2.GetComponent<Rigidbody>();
+    private int tetrinoListLength;
 
-        
+    
+    private void Start() {
         startForceVector = new Vector3(startForceX, startForceY, 0f);
 
         spawnPosition = transform.position;
-
         spawnRotation = Quaternion.identity;
+
+        tetrinoList = new List<GameObject> {
+            blockLong1,
+            blockL_Normal,
+            blockL_Reverse,
+            blockPyramid,
+            blockS_Normal,
+            blockS_Reverse,
+            blockSquare
+        };
+        tetrinoListLength = tetrinoList.Count;
     }
-	
-	// Update is called once per frame
-	void Update ()
-    {
-        /*
-        if (Input.GetKeyDown(KeyCode.Alpha1)) {
-            SpawnBlockLong1();
-        }
-        
-        */
 
 
-        
-
-
-        if (Input.GetKeyDown(KeyCode.Alpha1)) {
-            SpawnBlock(blockLong1);
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha2)) {
-            SpawnBlock(blockL_Normal);
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha3)) {
-            SpawnBlock(blockL_Reverse);
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha4)) {
-            SpawnBlock(blockPyramid);
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha5)) {
-            SpawnBlock(blockS_Normal);
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha6)) {
-            SpawnBlock(blockS_Reverse);
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha7)) {
-            SpawnBlock(blockSquare);
-        } 
-        else if (Input.GetKeyDown(blockThrowKey)) {
-            SpawnBlockLong1();
+    void Update() {
+        if (framesBeforeNextThrow > 0) {
+            framesBeforeNextThrow--;
+        } else {
+            if (Input.GetKeyDown(KeyCode.Alpha1)) {
+                SpawnBlock(blockLong1);
+            } else if (Input.GetKeyDown(KeyCode.Alpha2)) {
+                SpawnBlock(blockL_Normal);
+            } else if (Input.GetKeyDown(KeyCode.Alpha3)) {
+                SpawnBlock(blockL_Reverse);
+            } else if (Input.GetKeyDown(KeyCode.Alpha4)) {
+                SpawnBlock(blockPyramid);
+            } else if (Input.GetKeyDown(KeyCode.Alpha5)) {
+                SpawnBlock(blockS_Normal);
+            } else if (Input.GetKeyDown(KeyCode.Alpha6)) {
+                SpawnBlock(blockS_Reverse);
+            } else if (Input.GetKeyDown(KeyCode.Alpha7)) {
+                SpawnBlock(blockSquare);
+            } else if (Input.GetKeyDown(blockThrowKey)) {
+                SpawnRandomBlock();
+            }
         }
 
-        if (Input.GetKey(KeyCode.UpArrow) && startForceMultiplier < 1000) {
-            startForceMultiplier += 5;
-        }
-        else if (Input.GetKey(KeyCode.DownArrow) && startForceMultiplier > 0) {
-            startForceMultiplier -= 5;
+        if (Input.GetKeyDown(KeyCode.UpArrow) && startForceMultiplier < highStartForce) {
+            startForceMultiplier += 10;
+        } else if (Input.GetKeyDown(KeyCode.DownArrow) && startForceMultiplier > lowStartForce) {
+            startForceMultiplier -= 10;
         }
 
     }
 
-    
-    void SpawnBlockLong1() {
+
+    private void SpawnRandomBlock() {
+        ResetFramesBeforeNextThrow();
+        int randomListItem = Random.Range(0, tetrinoListLength);
         var latestBlockSpawned = Instantiate(
-                blockLong2,
+                tetrinoList[randomListItem],
                 spawnPosition,
                 spawnRotation
                 );
         latestBlockSpawned.GetComponent<Rigidbody>().AddForce(startForceVector * startForceMultiplier);
-        Debug.Log("Spawn " + blockLong2.name);
+        Debug.Log("Spawn " + latestBlockSpawned.name);
     }
 
-    void SpawnBlock(GameObject block) {
+
+    private void SpawnBlock(GameObject block) {
+        ResetFramesBeforeNextThrow();
         var latestBlockSpawned = Instantiate(
                 block,
                 spawnPosition,
@@ -109,12 +113,8 @@ public class Controls : MonoBehaviour {
         Debug.Log("Spawn " + latestBlockSpawned.name);
     }
 
-    //void Test() {
-    //    Physics.BoxCast();
-    //    Physics.OverlapBox();
-    //    Physics.ClosestPoint();
-    //}
 
-    //Rigidbody.isKinematic
-
+    private void ResetFramesBeforeNextThrow() {
+        framesBeforeNextThrow = framesBeforeNextThrowMax;
+    }
 }
