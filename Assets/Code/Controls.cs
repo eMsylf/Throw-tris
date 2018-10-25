@@ -17,7 +17,7 @@ public class Controls : MonoBehaviour {
     public GameObject blockLong2;
 
     private int framesBeforeNextThrow = 0;
-    private int framesBeforeNextThrowMax = 60;
+    private readonly int framesBeforeNextThrowMax = 60;
     private bool canThrow;
 
     private Vector3 spawnPosition;
@@ -61,6 +61,13 @@ public class Controls : MonoBehaviour {
         if (framesBeforeNextThrow > 0) {
             framesBeforeNextThrow--;
         } else {
+            //Dictionary<KeyCode, GameObject> dict = new Dictionary<KeyCode, GameObject>();
+
+            //foreach( KeyValuePair<KeyCode, GameObject> pair in dict ) {
+            //    if (Input.GetKeyDown(pair.Key)) {
+            //        SpawnBlock(pair.Value);
+            //    }
+            //}
             if (Input.GetKeyDown(KeyCode.Alpha1)) {
                 SpawnBlock(blockLong1);
             } else if (Input.GetKeyDown(KeyCode.Alpha2)) {
