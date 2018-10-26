@@ -11,39 +11,26 @@ public class BlockScript : MonoBehaviour {
 
 
     private int frameCount;
-    private int framesBeforeDetach = 15;
+    private int framesBeforeDetach = 2;
 
 
     private bool childrenGotRigidbodies = false;
-    private bool childrenDetached = false;
 
     // Use this for initialization
     void Start() {
-
-        foreach (Transform child in transform) {
-            child.GetComponent<Rigidbody>();
-        }
-
         spawnPos = gameObject.transform.position;
 
         rb = GetComponent<Rigidbody>();
-
-        //StartCoroutine("WaitAndEnableRigidbodies");
     }
 
     //Update is called once per frame
     void Update() {
         frameCount++;
         if (frameCount == framesBeforeDetach) {
-
             AddRigidbodiesToChildren();
-        }
-
-        if (childrenGotRigidbodies && !childrenDetached) {
             DetachChildren();
         }
-
-
+        
         if (Vector3.Distance(gameObject.transform.position, spawnPos) > outOfBoundsDistance) {
             Destroy(gameObject);
             Debug.Log(gameObject.name + "destroyed because out of bounds");
@@ -65,8 +52,6 @@ public class BlockScript : MonoBehaviour {
         rb.constraints = RigidbodyConstraints.FreezeAll;
 
         gameObject.SetActive(false);
-
-        childrenDetached = true;
     }
 
     private void AddRigidbodiesToChildren() {
@@ -78,31 +63,4 @@ public class BlockScript : MonoBehaviour {
         }
         childrenGotRigidbodies = true;
     }
-
-
-
-
-    //transform.GetComponentInParent<BlockScript>().transform.DetachChildren();
-
-    //transform.DetachChildren();
-
-    //for (int i = 0; i < 3; i++) {
-    //    Transform child = this.gameObject.transform.GetChild(i);
-    //}
-
-
-    //if (!name.Contains("Cube")){
-    //    rb.velocity = new Vector3(0,0,0);
-    //    rb.isKinematic = true;
-    //}
-
-    /*
-    if (GetComponentInParent<BlockScript>() != null) {
-        GetComponent<BoxCollider>().enabled = false;
-    }
-    else {
-        GetComponent<BoxCollider>().enabled = true;
-    }
-    */
-
 }

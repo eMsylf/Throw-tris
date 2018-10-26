@@ -140,6 +140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69efb6f273db872428cb5f6baa89018b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Value: 0
 --- !u!4 &207169355
 Transform:
   m_ObjectHideFlags: 0
@@ -1134,6 +1135,7 @@ GameObject:
   - component: {fileID: 1992409989}
   - component: {fileID: 1992409988}
   - component: {fileID: 1992409987}
+  - component: {fileID: 1992409991}
   m_Layer: 0
   m_Name: TetrinoThrower
   m_TagString: Untagged
@@ -1152,21 +1154,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 590f65a46871cbc4eb5ce259945e55e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blockLong1: {fileID: 1401249234986782, guid: 7814b3b4ec1941e45a8514a80b51c29b, type: 2}
-  blockL_Normal: {fileID: 1644745283061014, guid: 958528d7bc0be8048a6704d774d48b7a,
-    type: 2}
-  blockL_Reverse: {fileID: 1644745283061014, guid: 0c941d9e3c6eadf4397b1265c7bfe38b,
-    type: 2}
-  blockPyramid: {fileID: 1644745283061014, guid: 7c826b5c0a3831e409d9f80784c2e071,
-    type: 2}
-  blockS_Normal: {fileID: 1644745283061014, guid: cb7cd88308c02f14ea9e39f58a3feb3d,
-    type: 2}
-  blockS_Reverse: {fileID: 1644745283061014, guid: 22d6793542d2b5f4cb9f5c4462b2c812,
-    type: 2}
-  blockSquare: {fileID: 1876252269366036, guid: 4717d2b0398840d4a9746dbe262907b2,
-    type: 2}
+  BlockCreation: {fileID: 0}
   tetrinoList: []
-  blockLong2: {fileID: 1307174808338794, guid: 33bdaebae7234c24abb96ed9f20ae59c, type: 2}
   startForceX: -5
   startForceY: 5
   lowStartForce: 10
@@ -1228,6 +1217,30 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1992409991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1992409986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf40d8605e13ceb4ebe903926282f68a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blockLong1: {fileID: 1401249234986782, guid: 7814b3b4ec1941e45a8514a80b51c29b, type: 2}
+  blockL_Normal: {fileID: 1644745283061014, guid: 958528d7bc0be8048a6704d774d48b7a,
+    type: 2}
+  blockL_Reverse: {fileID: 1644745283061014, guid: 0c941d9e3c6eadf4397b1265c7bfe38b,
+    type: 2}
+  blockPyramid: {fileID: 1644745283061014, guid: 7c826b5c0a3831e409d9f80784c2e071,
+    type: 2}
+  blockS_Normal: {fileID: 1644745283061014, guid: cb7cd88308c02f14ea9e39f58a3feb3d,
+    type: 2}
+  blockS_Reverse: {fileID: 1644745283061014, guid: 22d6793542d2b5f4cb9f5c4462b2c812,
+    type: 2}
+  blockSquare: {fileID: 1876252269366036, guid: 4717d2b0398840d4a9746dbe262907b2,
+    type: 2}
 --- !u!1 &2112171281
 GameObject:
   m_ObjectHideFlags: 0
